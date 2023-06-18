@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mangokuv2/models/mcolors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mangokuv2/models/anime.dart';
+import 'package:mangokuv2/models/mstyles.dart';
 import 'package:mangokuv2/models/silver_custom_header.dart';
 
 class BottomSpace extends StatelessWidget {
@@ -81,14 +82,13 @@ class Recents extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: AspectRatio(
-          aspectRatio: 16 / 6,
+          aspectRatio: 16 / 7,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text("Yakın Zamanda Eklenenler",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
+              child:
+                  Text("Yakın Zamanda Eklenenler", style: Mstyles().H1TxStyle),
             ),
             const ListRecents()
           ]),
@@ -98,6 +98,7 @@ class Recents extends StatelessWidget {
   }
 }
 
+// Yakın Zamanda Eklenenler Sekmesinin Liste Item Oluşturucusu
 class ListRecents extends StatelessWidget {
   const ListRecents({
     Key? key,
@@ -125,30 +126,43 @@ class ListRecents extends StatelessWidget {
   }
 }
 
+// Yakın Zamanda Eklenenler Sekmesi Liste Elemanları
 class RecentsItems extends StatelessWidget {
   final int index;
   final BoxConstraints constraints;
 
-  RecentsItems({required this.index, required this.constraints});
+  const RecentsItems(
+      {super.key, required this.index, required this.constraints});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20),
-      child: SizedBox(
-        height: constraints.maxHeight,
-        width: constraints.maxWidth * .25,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            recentData[index].poster,
-            fit: BoxFit.cover,
+    return Column(
+      children: [
+        Padding(
+          // Elemanlar arası boşlukların ayarlandığı yer
+          padding: const EdgeInsets.only(right: 10, bottom: 5),
+          child: SizedBox(
+            // Yakın zamanda eklenenler listesi eleman büyüklükleri buradan ayarlanıyor
+            height: constraints.maxHeight * .78,
+            width: constraints.maxWidth * .25,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(7),
+              child: Image.network(
+                recentData[index].poster,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-      ),
+        Text(
+          recentData[index].name,
+          style: Mstyles().rcTxStyle,
+        )
+      ],
     );
   }
 }
 
+// Trendler Sekmesi
 class Trends extends StatelessWidget {
   const Trends({
     Key? key,
@@ -168,6 +182,7 @@ class Trends extends StatelessWidget {
   }
 }
 
+// Trendler Sekmesi Liste Oluşturucusu
 class ListTrends extends StatelessWidget {
   const ListTrends({
     Key? key,
@@ -186,52 +201,76 @@ class ListTrends extends StatelessWidget {
                 .textTheme
                 .labelLarge
                 ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600);
-            return Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: SizedBox(
-                height: constraints.maxHeight,
-                width: constraints.maxWidth * .375,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                        child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        manga.poster,
-                        fit: BoxFit.cover,
-                      ),
-                    )),
-                    const SizedBox(height: 15),
-                    Text(
-                      manga.name,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 7.5),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          "icons/a.svg",
-                        ),
-                        const SizedBox(width: 5),
-                        Text("Puan: ${manga.score}", style: style),
-                        const SizedBox(
-                          width: 7.5,
-                        ),
-                        Text("# ${manga.number}",
-                            style: style?.copyWith(color: Mcolors.cyan)),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+            return TrendsItem(
+              manga: manga,
+              style: style,
+              constraints: constraints,
             );
           });
     }));
   }
 }
 
+// Trendler Liste Elemanları
+class TrendsItem extends StatelessWidget {
+  const TrendsItem(
+      {super.key,
+      required this.manga,
+      required this.style,
+      required this.constraints});
+  final BoxConstraints constraints;
+  final Manga manga;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: SizedBox(
+        height: constraints.maxHeight,
+        width: constraints.maxWidth * .375,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+                child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                manga.poster,
+                fit: BoxFit.cover,
+              ),
+            )),
+            const SizedBox(height: 15),
+            Text(
+              manga.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 7.5),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  "icons/a.svg",
+                ),
+                const SizedBox(width: 5),
+                Text("Puan: ${manga.score}", style: style),
+                const SizedBox(
+                  width: 7.5,
+                ),
+                Text("# ${manga.number}",
+                    style: style?.copyWith(color: Mcolors.cyan)),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Trendler başlığı
 class HeaderTrends extends StatelessWidget {
   const HeaderTrends({
     Key? key,
@@ -245,10 +284,7 @@ class HeaderTrends extends StatelessWidget {
         Expanded(
             child: Text(
           "Trendler",
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+          style: Mstyles().H1TxStyle,
         )),
         Text("Hepsini Gör",
             style: Theme.of(context)
@@ -260,6 +296,7 @@ class HeaderTrends extends StatelessWidget {
   }
 }
 
+// Sayfanın en üstü app bar
 class Header extends StatelessWidget {
   const Header({
     Key? key,
