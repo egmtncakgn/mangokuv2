@@ -5,6 +5,7 @@ import 'package:mangokuv2/models/anime.dart';
 import 'package:mangokuv2/models/mstyles.dart';
 import 'package:mangokuv2/models/silver_custom_header.dart';
 
+// Alt nav bar için boşluk
 class BottomSpace extends StatelessWidget {
   /// Alttan belirli bir miktarda boşluk bırakmak için yazıldı
   const BottomSpace({
@@ -38,11 +39,8 @@ class Aviable extends StatelessWidget {
             // Ön izleme alanı başlık kodları
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: Text(
-                "Ön İzleme: One Punch Man",
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              child:
+                  Text("Ön İzleme: One Punch Man", style: Mstyles().h1TxStyle),
             ),
             // Ön izleme alanı içerik kodları
             AspectRatio(
@@ -82,13 +80,13 @@ class Recents extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: AspectRatio(
-          aspectRatio: 16 / 7,
+          aspectRatio: 16 / 8,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child:
-                  Text("Yakın Zamanda Eklenenler", style: Mstyles().H1TxStyle),
+                  Text("Yakın Zamanda Eklenenler", style: Mstyles().h1TxStyle),
             ),
             const ListRecents()
           ]),
@@ -127,6 +125,7 @@ class ListRecents extends StatelessWidget {
 }
 
 // Yakın Zamanda Eklenenler Sekmesi Liste Elemanları
+// Eleman resim oranlarında bir hata var düzelt onepuncman daha ince uzun görünüyor
 class RecentsItems extends StatelessWidget {
   final int index;
   final BoxConstraints constraints;
@@ -139,16 +138,20 @@ class RecentsItems extends StatelessWidget {
       children: [
         Padding(
           // Elemanlar arası boşlukların ayarlandığı yer
-          padding: const EdgeInsets.only(right: 10, bottom: 5),
+          padding: const EdgeInsets.only(right: 0, bottom: 5),
+          // Tıklanabilirlik özelliği için outlinedbuttona wrap edildi
           child: SizedBox(
             // Yakın zamanda eklenenler listesi eleman büyüklükleri buradan ayarlanıyor
-            height: constraints.maxHeight * .78,
-            width: constraints.maxWidth * .25,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(7),
-              child: Image.network(
-                recentData[index].poster,
-                fit: BoxFit.cover,
+            height: constraints.maxHeight * .70,
+            width: constraints.maxWidth * .29,
+            child: OutlinedButton(
+              onPressed: () {},
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7),
+                child: Image.network(
+                  recentData[index].poster,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ),
@@ -194,7 +197,7 @@ class ListTrends extends StatelessWidget {
       return ListView.builder(
           itemCount: trendsData.length,
           scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(top: 10, left: 20),
+          padding: const EdgeInsets.only(top: 5, left: 20),
           itemBuilder: (_, index) {
             final manga = trendsData[index];
             final style = Theme.of(context)
@@ -225,45 +228,46 @@ class TrendsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.only(right: 15),
       child: SizedBox(
         height: constraints.maxHeight,
         width: constraints.maxWidth * .375,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-                child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                manga.poster,
-                fit: BoxFit.cover,
+        child: OutlinedButton(
+          onPressed: () {},
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                  child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  manga.poster,
+                  fit: BoxFit.cover,
+                ),
+              )),
+              const SizedBox(height: 15),
+              Text(
+                manga.name,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
-            )),
-            const SizedBox(height: 15),
-            Text(
-              manga.name,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 7.5),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  "icons/a.svg",
-                ),
-                const SizedBox(width: 5),
-                Text("Puan: ${manga.score}", style: style),
-                const SizedBox(
-                  width: 7.5,
-                ),
-                Text("# ${manga.number}",
-                    style: style?.copyWith(color: Mcolors.cyan)),
-              ],
-            )
-          ],
+              const SizedBox(height: 7.5),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    "icons/a.svg",
+                  ),
+                  const SizedBox(width: 5),
+                  Text("Puan: ${manga.score}", style: style),
+                  const SizedBox(
+                    width: 7.5,
+                  ),
+                  Text("# ${manga.number}",
+                      style: style?.copyWith(color: Mcolors.cyan)),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -284,13 +288,11 @@ class HeaderTrends extends StatelessWidget {
         Expanded(
             child: Text(
           "Trendler",
-          style: Mstyles().H1TxStyle,
+          style: Mstyles().h1TxStyle,
         )),
-        Text("Hepsini Gör",
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall
-                ?.copyWith(color: Mcolors.cyan, fontWeight: FontWeight.w700))
+        TextButton(
+            onPressed: () {},
+            child: Text("Hepsini Gör", style: Mstyles().m1TxStyle))
       ]),
     );
   }
