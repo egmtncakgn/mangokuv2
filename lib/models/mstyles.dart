@@ -9,8 +9,8 @@ class Mstyles {
   TextStyle m1TxStyle = const TextStyle(
       fontSize: 14, color: Mcolors.cyan, fontWeight: FontWeight.bold);
   TextStyle lgnStyle = const TextStyle(
-    fontSize: 48,
+    fontSize: 65,
     color: Mcolors.cyan,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w900,
   );
 }

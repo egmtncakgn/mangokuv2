@@ -1,13 +1,16 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-///import 'package:mangokuv2/screens/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mangokuv2/firebase_options.dart';
+import 'package:mangokuv2/models/google_sign_in.dart';
+import 'package:mangokuv2/screens/homepage.dart';
 import 'package:mangokuv2/screens/loginpage.dart';
+import 'package:provider/provider.dart';
+
+// Saçma sapan bi hata var ekran değişmek üzreyken oluyor
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,29 +19,31 @@ Future<void> main() async {
   runApp(const App());
 }
 
-class App extends StatefulWidget {
+class App extends StatelessWidget {
   const App({super.key});
 
   @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  @override
   Widget build(BuildContext context) {
-    SUIOverlayStyle();
+    sUIOverlayStyle();
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light().copyWith(
-          scaffoldBackgroundColor: Colors.black,
-          textTheme: GoogleFonts.sourceSansProTextTheme()),
-      home: const LoginPage(),
+    return ChangeNotifierProvider(
+      create: (context) => GSignInProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: Colors.black,
+            textTheme: GoogleFonts.sourceSansProTextTheme()),
+        initialRoute: LoginPage.id,
+        routes: {
+          LoginPage.id: (context) => LoginPage(),
+          HomePage.id: (context) => HomePage()
+        },
+      ),
     );
   }
 }
 
-void SUIOverlayStyle() {
+void sUIOverlayStyle() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.light));

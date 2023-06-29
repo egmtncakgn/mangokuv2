@@ -1,3 +1,5 @@
+// ignore: unused_import
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mangokuv2/models/mcolors.dart';
 import 'package:mangokuv2/widgets/widgets.dart';
@@ -5,7 +7,20 @@ import 'package:mangokuv2/widgets/widgets.dart';
 import '../models/navbar.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  static String id = "/Homepage";
+
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Homepage();
+  }
+}
+
+class Homepage extends StatelessWidget {
+  const Homepage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
