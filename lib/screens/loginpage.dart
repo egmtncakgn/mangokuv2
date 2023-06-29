@@ -19,19 +19,20 @@ class LoginPage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         Scaffold(
+            backgroundColor: Colors.transparent,
             body: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(children: [
-            LoginHeaderTx(),
-            SizedBox(
-              height: 150,
-            ),
-            SignInButton(Buttons.FacebookNew, onPressed: () {}),
-            SignInButton(Buttons.Google, onPressed: () {}),
-            SignInButton(Buttons.Apple, onPressed: () {}),
-            SignInButton(Buttons.Email, onPressed: () {}),
-          ]),
-        ))
+              padding: EdgeInsets.all(20),
+              child: Column(children: [
+                LoginHeaderTx(),
+                SizedBox(
+                  height: 150,
+                ),
+                SignInButton(Buttons.FacebookNew, onPressed: () {}),
+                SignInButton(Buttons.Google, onPressed: () {}),
+                SignInButton(Buttons.Apple, onPressed: () {}),
+                SignInButton(Buttons.Email, onPressed: () {}),
+              ]),
+            ))
       ],
     );
   }
