@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mangokuv2/models/mcolors.dart';
+import 'package:mangokuv2/styles/mcolors.dart';
 
 class Mstyles {
   TextStyle rcTxStyle = const TextStyle(

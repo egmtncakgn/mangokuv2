@@ -2,9 +2,9 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mangokuv2/models/google_sign_in.dart';
+import 'package:mangokuv2/helpers/google_sign_in.dart';
 //import 'package:mangokuv2/models/mcolors.dart';
-import 'package:mangokuv2/models/mstyles.dart';
+import 'package:mangokuv2/styles/mstyles.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mangokuv2/screens/homepage.dart';
 import 'package:provider/provider.dart';

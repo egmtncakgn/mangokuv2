@@ -10,6 +10,7 @@ class NavBar {
 const itemsNavBar = [
   NavBar(name: "Ana Sayfa", icon: Icons.home),
   NavBar(name: "Arama", icon: Icons.search),
+  NavBar(name: "Kategoriler", icon: Icons.book),
   NavBar(name: "Favoriler", icon: Icons.favorite),
   NavBar(name: "İndirilenler", icon: Icons.arrow_circle_down_sharp),
 ];

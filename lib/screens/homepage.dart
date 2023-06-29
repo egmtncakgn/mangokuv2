@@ -1,7 +1,7 @@
 // ignore: unused_import
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mangokuv2/models/mcolors.dart';
+import 'package:mangokuv2/styles/mcolors.dart';
 import 'package:mangokuv2/widgets/widgets.dart';
 
 import '../models/navbar.dart';

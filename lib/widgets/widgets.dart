@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mangokuv2/models/mcolors.dart';
+import 'package:mangokuv2/styles/mcolors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mangokuv2/models/anime.dart';
-import 'package:mangokuv2/models/mstyles.dart';
-import 'package:mangokuv2/models/silver_custom_header.dart';
+import 'package:mangokuv2/models/manga.dart';
+import 'package:mangokuv2/styles/mstyles.dart';
+import 'package:mangokuv2/helpers/silver_custom_header.dart';
 
 // Alt nav bar için boşluk
 class BottomSpace extends StatelessWidget {
