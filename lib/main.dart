@@ -10,8 +10,6 @@ import 'package:mangokuv2/screens/homepage.dart';
 import 'package:mangokuv2/screens/loginpage.dart';
 import 'package:provider/provider.dart';
 
-// Saçma sapan bi hata var ekran değişmek üzreyken oluyor
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

@@ -1,42 +1,62 @@
 // ignore: unused_import
-import 'package:firebase_core/firebase_core.dart';
+// ignore_for_file: unused_element, unused_field
+
 import 'package:flutter/material.dart';
+import 'package:mangokuv2/screens/catagoriespage.dart';
+import 'package:mangokuv2/screens/downloadspage.dart';
+import 'package:mangokuv2/screens/favpage.dart';
+import 'package:mangokuv2/screens/searchpage.dart';
 import 'package:mangokuv2/styles/mcolors.dart';
 import 'package:mangokuv2/widgets/widgets.dart';
 
 import '../models/navbar.dart';
 
-class HomePage extends StatelessWidget {
-  static String id = "/Homepage";
-
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Homepage();
-  }
-}
-
-class Homepage extends StatelessWidget {
-  const Homepage({
+class HomePage extends StatefulWidget {
+  static String id = "/HomePage";
+  const HomePage({
     super.key,
   });
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedTab = 0;
+
+  final List _pages = [
+    const Body(),
+    const SearchPage(),
+    const CatagoriesPage(),
+    const FavPage(),
+    const DownlandsPage(),
+  ];
+
+  _changeTab(int index) {
+    setState(() {
+      _selectedTab = index;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Stack(
-      children: [const Body(), NavBar()],
-    )));
+        body: Stack(
+      children: [_pages[_selectedTab], NavBar()],
+    ));
   }
 }
 
-class NavBar extends StatelessWidget {
-  NavBar({
+class NavBar extends StatefulWidget {
+  const NavBar({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
   final _index = ValueNotifier<int>(0);
 
   @override
@@ -104,8 +124,10 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView(
-      slivers: [Header(), Trends(), Recents(), Aviable(), BottomSpace()],
+    return const SafeArea(
+      child: CustomScrollView(
+        slivers: [Header(), Trends(), Recents(), Aviable(), BottomSpace()],
+      ),
     );
   }
 }

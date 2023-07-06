@@ -1,0 +1,45 @@
+ // ignore_for_file: use_function_type_syntax_for_parameters, non_constant_identifier_names
+ -- Başka Sayfaya Gitmek
+ - Alıntılanan link https://medium.com/@berkekurnaz/flutter-g%C3%BCnl%C3%BCkleri-4-sayfalar-aras%C4%B1-ge%C3%A7i%C5%9Fler-48730e6df65a
+ 
+ Bu route kullanılmadan yapılan 
+ -- Navigator.push(context, MaterialPageRoute(builder: (context) => SecondPage()));
+ 
+ Buda route ile yapılan
+ -- Navigator.pushNamed(context, "/detail");
+ - Ayrıca named değilde normal push kullanırsak diğer sayfaya veri gönderilebilir.
+
+ -- Rotalar Nasıl Ayarlanır
+ - Bu şekilde main dosyasından ayarlanabilir.
+ Örnek;
+------------------------------------------------
+ void main(){
+  runApp(MaterialApp(
+    initialRoute: "/",
+    routes: {
+      "/": (context) => Home(),
+      "/detail": (context) => Detail(),
+      "/settings": (context) => Settings(),
+    },
+  ));
+}
+------------------------------------------------
+
+-- Sayfalar Arası Veri Gönderimi
+- Alıntılanan link https://onursahin.net/flutterda-ekranlar-arasi-veri-aktarimi/
+
+- Tabiki bu gönderim için gönderilecek sayfada args oluşturmak gerekli (required this.string vb. gibi) 
+Örnek;
+------------------------------------------------
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailPage(
+                item: myList[index],
+            ),
+        ),
+    );
+------------------------------------------------
+
+izle ve ekle 
+https://www.youtube.com/watch?v=xoKqQjSDZ60

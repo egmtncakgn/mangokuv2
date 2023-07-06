@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mangokuv2/screens/detailpage.dart';
 import 'package:mangokuv2/styles/mcolors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mangokuv2/models/manga.dart';
 import 'package:mangokuv2/styles/mstyles.dart';
 import 'package:mangokuv2/helpers/silver_custom_header.dart';
+
+void goToDetail(BuildContext context, Manga manga) {
+  Navigator.push(context,
+      MaterialPageRoute(builder: ((context) => DetailPage(manga: manga))));
+}
 
 // Alt nav bar için boşluk
 class BottomSpace extends StatelessWidget {
@@ -145,7 +150,9 @@ class RecentsItems extends StatelessWidget {
             height: constraints.maxHeight * .70,
             width: constraints.maxWidth * .29,
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                goToDetail(context, recentData[index]);
+              },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
                 child: Image.network(
@@ -233,7 +240,10 @@ class TrendsItem extends StatelessWidget {
         height: constraints.maxHeight,
         width: constraints.maxWidth * .375,
         child: OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            // Üzerine tıklanıldığında detailpage açılıyor.
+            goToDetail(context, manga);
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -254,9 +264,6 @@ class TrendsItem extends StatelessWidget {
               const SizedBox(height: 7.5),
               Row(
                 children: [
-                  SvgPicture.asset(
-                    "icons/a.svg",
-                  ),
                   const SizedBox(width: 5),
                   Text("Puan: ${manga.score}", style: style),
                   const SizedBox(

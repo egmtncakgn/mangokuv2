@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mangokuv2/models/manga.dart';
-import 'package:mangokuv2/styles/mstyles.dart';
+import '../styles/mstyles.dart';
+import '../models/navbar.dart';
 
-class DetailPage extends StatelessWidget {
-  const DetailPage({super.key, required this.manga});
-  final Manga manga;
+class FavPage extends StatelessWidget {
+  const FavPage({super.key, this.bar});
+  final NavBar? bar;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class DetailPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            manga.name,
+            bar!.name,
             style: Mstyles().m1TxStyle,
           ),
         )),
