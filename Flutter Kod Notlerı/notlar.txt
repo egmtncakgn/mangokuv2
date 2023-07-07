@@ -41,5 +41,41 @@
     );
 ------------------------------------------------
 
-izle ve ekle 
-https://www.youtube.com/watch?v=xoKqQjSDZ60
+-- Navigation Bar Yapımı
+- Alıntılanan link https://www.youtube.com/watch?v=xoKqQjSDZ60
+
+- Scaffoldun bottomnavigationbar özelliğine bnb* widgeti ekliyoruz en az 2 item veriyoruz
+- yoksa hata verir. 
+
+- bnb* itemlerinde label olmak zorundadır yoksa hata verir.
+Örnek;
+------------------------------------------------
+BottomNavigationBar(
+            currentIndex: _selectedTab,
+            backgroundColor: Mcolors.background,
+            unselectedItemColor: Colors.white70,
+            selectedItemColor: Mcolors.cyan,
+            iconSize: 28,
+            onTap: (value) => _changeTab(value),
+            type: BottomNavigationBarType.fixed,
+            items: itemsNavBar));
+------------------------------------------------
+
+-- Navigation Bar da Sayfa Değiştirirken Sayfayı Saklama
+- Alıntılanan Link 9:13 https://www.youtube.com/watch?v=xoKqQjSDZ60
+
+- IndexedStack kullanarak listedeki elemanları yok etmeden elemanlar
+- arası gezinti yapabiliyoruz.
+
+Örnek;
+------------------------------------------------
+ Widget build(BuildContext context) {
+    return Scaffold(
+        // Sayfaları tam yok etmemek içim
+        body: IndexedStack(
+          index: _selectedTab,
+          children: _pages,
+        ),
+        bottomNavigationBar: newNavBar());
+  }
+------------------------------------------------

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 
-class NavBar {
-  final IconData icon;
-  final String name;
-
-  const NavBar({required this.name, required this.icon});
-}
-
 const itemsNavBar = [
-  NavBar(name: "Ana Sayfa", icon: Icons.home),
-  NavBar(name: "Arama", icon: Icons.search),
-  NavBar(name: "Kategoriler", icon: Icons.book),
-  NavBar(name: "Favoriler", icon: Icons.favorite),
-  NavBar(name: "İndirilenler", icon: Icons.arrow_circle_down_sharp),
+  BottomNavigationBarItem(label: "Ana Sayfa", icon: Icon(Icons.home)),
+  BottomNavigationBarItem(label: "Arama", icon: Icon(Icons.search)),
+  BottomNavigationBarItem(label: "Kategoriler", icon: Icon(Icons.book)),
+  BottomNavigationBarItem(label: "Favoriler", icon: Icon(Icons.favorite)),
+  BottomNavigationBarItem(
+      label: "İndirilenler", icon: Icon(Icons.arrow_circle_down_sharp)),
 ];

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../styles/mstyles.dart';
-import '../models/navbar.dart';
 
 class CatDetailsPage extends StatelessWidget {
-  const CatDetailsPage({super.key, required this.bar});
-  final NavBar bar;
+  const CatDetailsPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class CatDetailsPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            bar.name,
+            "bar.name",
             style: Mstyles().m1TxStyle,
           ),
         )),

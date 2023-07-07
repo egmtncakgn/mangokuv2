@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedTab = 0;
 
-  final List _pages = [
+  final List<StatelessWidget> _pages = [
     const Body(),
     const SearchPage(),
     const CatagoriesPage(),
@@ -41,79 +41,33 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [_pages[_selectedTab], NavBar()],
-    ));
+        // Sayfaları tam yok etmemek içim
+        body: IndexedStack(
+          index: _selectedTab,
+          children: _pages,
+        ),
+        bottomNavigationBar: newNavBar());
   }
-}
 
-class NavBar extends StatefulWidget {
-  const NavBar({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<NavBar> createState() => _NavBarState();
-}
-
-class _NavBarState extends State<NavBar> {
-  final _index = ValueNotifier<int>(0);
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: kBottomNavigationBarHeight * 1.22,
-          decoration: BoxDecoration(color: Mcolors.background, boxShadow: [
-            BoxShadow(
-                color: Mcolors.cyan.withOpacity(.45),
-                spreadRadius: 7.5,
-                blurRadius: 15),
-          ]),
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            children: List.generate(
-                itemsNavBar.length,
-                ((index) => Expanded(
-                    child: ValueListenableBuilder<int>(
-                        valueListenable: _index,
-                        builder: (_, value, __) {
-                          return GestureDetector(
-                            // Alt tuşlara basıldığında
-                            onTap: () => _index.value = index,
-                            child: Material(
-                              color: Colors.transparent,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    itemsNavBar[index].icon,
-                                    color: (index == value)
-                                        ? Mcolors.cyan
-                                        : Colors.grey,
-                                  ),
-                                  const SizedBox(
-                                    height: 3,
-                                  ),
-                                  Text(
-                                    itemsNavBar[index].name,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          color: (index == value)
-                                              ? Mcolors.cyan
-                                              : Colors.grey,
-                                        ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        })))),
-          ),
-        ));
+  Container newNavBar() {
+    return Container(
+        height: kBottomNavigationBarHeight * 1.23,
+        decoration: BoxDecoration(color: Mcolors.background, boxShadow: [
+          BoxShadow(
+              color: Mcolors.cyan.withOpacity(.45),
+              spreadRadius: 5,
+              blurRadius: 15),
+        ]),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: BottomNavigationBar(
+            currentIndex: _selectedTab,
+            backgroundColor: Mcolors.background,
+            unselectedItemColor: Colors.white70,
+            selectedItemColor: Mcolors.cyan,
+            iconSize: 28,
+            onTap: (value) => _changeTab(value),
+            type: BottomNavigationBarType.fixed,
+            items: itemsNavBar));
   }
 }
 

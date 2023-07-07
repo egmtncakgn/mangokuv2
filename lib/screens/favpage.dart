@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../styles/mstyles.dart';
-import '../models/navbar.dart';
 
 class FavPage extends StatelessWidget {
-  const FavPage({super.key, this.bar});
-  final NavBar? bar;
+  const FavPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +12,7 @@ class FavPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            bar!.name,
+            "bar!.name",
             style: Mstyles().m1TxStyle,
           ),
         )),
