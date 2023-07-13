@@ -14,7 +14,7 @@ class CatDetailsPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            "bar.name",
+            "Katagori Ayrıntılar Sayfası",
             style: Mstyles().m1TxStyle,
           ),
         )),

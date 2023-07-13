@@ -12,7 +12,7 @@ class SearchPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            "bar!.name",
+            "Arama Sayfası",
             style: Mstyles().m1TxStyle,
           ),
         )),

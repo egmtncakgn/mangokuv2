@@ -1,10 +1,10 @@
 // ignore: unused_import
 // ignore_for_file: unused_element, unused_field
-
 import 'package:flutter/material.dart';
 import 'package:mangokuv2/screens/catagoriespage.dart';
 import 'package:mangokuv2/screens/downloadspage.dart';
 import 'package:mangokuv2/screens/favpage.dart';
+import 'package:mangokuv2/screens/profilepage.dart';
 import 'package:mangokuv2/screens/searchpage.dart';
 import 'package:mangokuv2/styles/mcolors.dart';
 import 'package:mangokuv2/widgets/widgets.dart';
@@ -22,14 +22,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedTab = 0;
+  int _selectedTab = 5;
 
-  final List<StatelessWidget> _pages = [
+  final _pages = [
     const Body(),
     const SearchPage(),
     const CatagoriesPage(),
     const FavPage(),
     const DownlandsPage(),
+    const ProfilePage()
   ];
 
   _changeTab(int index) {
@@ -38,15 +39,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+// Trendler yüklenmiyor ya listener kur statefull yap yada eşitlenmesini bekle
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // Sayfaları tam yok etmemek içim
-        body: IndexedStack(
-          index: _selectedTab,
-          children: _pages,
-        ),
-        bottomNavigationBar: newNavBar());
+      body: IndexedStack(
+        index: _selectedTab,
+        children: _pages,
+      ),
+      bottomNavigationBar: newNavBar(),
+    );
   }
 
   Container newNavBar() {
@@ -71,16 +73,21 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   const Body({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  @override
   Widget build(BuildContext context) {
     return const SafeArea(
       child: CustomScrollView(
-        slivers: [Header(), Trends(), Recents(), Aviable(), BottomSpace()],
+        slivers: [Header(), Trends(), Recents(), Aviable()],
       ),
     );
   }

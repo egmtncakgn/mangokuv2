@@ -7,4 +7,5 @@ const itemsNavBar = [
   BottomNavigationBarItem(label: "Favoriler", icon: Icon(Icons.favorite)),
   BottomNavigationBarItem(
       label: "İndirilenler", icon: Icon(Icons.arrow_circle_down_sharp)),
+  BottomNavigationBarItem(label: "Profil", icon: Icon(Icons.man)),
 ];

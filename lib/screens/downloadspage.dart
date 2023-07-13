@@ -12,7 +12,7 @@ class DownlandsPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            " bar!.name",
+            " İndirilenler Sayfası",
             style: Mstyles().m1TxStyle,
           ),
         )),

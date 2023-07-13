@@ -12,7 +12,7 @@ class CatagoriesPage extends StatelessWidget {
         child: Center(
             child: Center(
           child: Text(
-            "bar!.name",
+            "Katagoriler Sayfası",
             style: Mstyles().m1TxStyle,
           ),
         )),

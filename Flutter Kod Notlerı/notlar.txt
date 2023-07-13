@@ -79,3 +79,44 @@ BottomNavigationBar(
         bottomNavigationBar: newNavBar());
   }
 ------------------------------------------------
+
+-- ListView.builder Nasıl Kullanılır
+- Alıntılanan link 
+
+------------------------------------------------
+Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("List View Builder"),
+        ),
+        body: ListView.builder(
+          itemCount: stocksList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(
+                    stocksList[index].name,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  leading: CircleAvatar(
+                    child: Text(
+                      stocksList[index].name[0],
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  trailing: Text("\$ ${stocksList[index].price}"),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+  ---------------------------------------

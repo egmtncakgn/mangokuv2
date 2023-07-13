@@ -1,13 +1,22 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:mangokuv2/helpers/firebasedb.dart';
+import 'package:mangokuv2/models/seri.dart';
 import 'package:mangokuv2/screens/detailpage.dart';
 import 'package:mangokuv2/styles/mcolors.dart';
 import 'package:mangokuv2/models/manga.dart';
 import 'package:mangokuv2/styles/mstyles.dart';
 import 'package:mangokuv2/helpers/silver_custom_header.dart';
 
-void goToDetail(BuildContext context, Manga manga) {
-  Navigator.push(context,
-      MaterialPageRoute(builder: ((context) => DetailPage(manga: manga))));
+void goToDetail(BuildContext context, Seri seri) {
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: ((context) => DetailPage(
+                seri: seri,
+              ))));
 }
 
 // Alt nav bar için boşluk
@@ -151,7 +160,7 @@ class RecentsItems extends StatelessWidget {
             width: constraints.maxWidth * .29,
             child: OutlinedButton(
               onPressed: () {
-                goToDetail(context, recentData[index]);
+                //goToDetail(context, );
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
@@ -173,11 +182,16 @@ class RecentsItems extends StatelessWidget {
 }
 
 // Trendler Sekmesi
-class Trends extends StatelessWidget {
+class Trends extends StatefulWidget {
   const Trends({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<Trends> createState() => _TrendsState();
+}
+
+class _TrendsState extends State<Trends> {
   @override
   Widget build(BuildContext context) {
     return const SliverToBoxAdapter(
@@ -193,31 +207,72 @@ class Trends extends StatelessWidget {
 }
 
 // Trendler Sekmesi Liste Oluşturucusu
-class ListTrends extends StatelessWidget {
+class ListTrends extends StatefulWidget {
   const ListTrends({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ListTrends> createState() => _ListTrendsState();
+}
+
+class _ListTrendsState extends State<ListTrends> {
+  @override
   Widget build(BuildContext context) {
-    return Expanded(child: LayoutBuilder(builder: (_, constraints) {
-      return ListView.builder(
-          itemCount: trendsData.length,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(top: 5, left: 20),
-          itemBuilder: (_, index) {
-            final manga = trendsData[index];
-            final style = Theme.of(context)
-                .textTheme
-                .labelLarge
-                ?.copyWith(color: Colors.white, fontWeight: FontWeight.w600);
-            return TrendsItem(
-              manga: manga,
-              style: style,
-              constraints: constraints,
-            );
-          });
-    }));
+    return const ListTrendsBuilder();
+  }
+}
+
+class ListTrendsBuilder extends StatefulWidget {
+  const ListTrendsBuilder({
+    super.key,
+  });
+
+  @override
+  State<ListTrendsBuilder> createState() => _ListTrendsBuilderState();
+}
+
+class _ListTrendsBuilderState extends State<ListTrendsBuilder> {
+  @override
+  Widget build(BuildContext context) {
+    List<Seri> seriler = List.empty();
+    final db = FirebaseFirestore.instance;
+    return StreamBuilder<QuerySnapshot>(
+      stream: db.collection("seriler").snapshots(),
+      builder: (context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return const CircularProgressIndicator();
+          default:
+            if (snapshot.hasError) {
+              return Center(
+                child: Text("Bi Sorun Var ${snapshot.hasError}"),
+              );
+            } else {
+              seriler = FFHelper().serileriListele(snapshot.data);
+              return Expanded(child: LayoutBuilder(builder: (_, constraints) {
+                return ListView.builder(
+                    itemCount: seriler.length,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(top: 5, left: 20),
+                    itemBuilder: (_, index) {
+                      final seri = seriler[index];
+                      final style = Theme.of(context)
+                          .textTheme
+                          .labelLarge
+                          ?.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600);
+                      return TrendsItem(
+                        seri: seri,
+                        style: style,
+                        constraints: constraints,
+                      );
+                    });
+              }));
+            }
+        }
+      },
+    );
   }
 }
 
@@ -225,11 +280,11 @@ class ListTrends extends StatelessWidget {
 class TrendsItem extends StatelessWidget {
   const TrendsItem(
       {super.key,
-      required this.manga,
+      required this.seri,
       required this.style,
       required this.constraints});
   final BoxConstraints constraints;
-  final Manga manga;
+  final Seri seri;
   final TextStyle? style;
 
   @override
@@ -242,7 +297,7 @@ class TrendsItem extends StatelessWidget {
         child: OutlinedButton(
           onPressed: () {
             // Üzerine tıklanıldığında detailpage açılıyor.
-            goToDetail(context, manga);
+            goToDetail(context, seri);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -251,13 +306,13 @@ class TrendsItem extends StatelessWidget {
                   child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  manga.poster,
+                  seri.posterAddress,
                   fit: BoxFit.cover,
                 ),
               )),
               const SizedBox(height: 15),
               Text(
-                manga.name,
+                seri.name,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -265,11 +320,11 @@ class TrendsItem extends StatelessWidget {
               Row(
                 children: [
                   const SizedBox(width: 5),
-                  Text("Puan: ${manga.score}", style: style),
+                  Text("Puan: ${seri.score}", style: style),
                   const SizedBox(
                     width: 7.5,
                   ),
-                  Text("# ${manga.number}",
+                  Text("# ${seri.rank}",
                       style: style?.copyWith(color: Mcolors.cyan)),
                 ],
               )
@@ -352,3 +407,52 @@ class Header extends StatelessWidget {
     );
   }
 }
+/*
+// burası sıçtı düzelt
+class BestOf extends StatelessWidget {
+  const BestOf({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: AspectRatio(
+          aspectRatio: 16 / 8,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text("Bugünün En İyileri", style: Mstyles().h1TxStyle),
+            ),
+            Column(
+              children: ListView.builder(
+          itemCount: trendsData.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(
+                    trendsData[index].name,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  leading: CircleAvatar(
+                    child: Text(
+                      trendsData[index].name[0],
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  trailing: Text("\$ ${trendsData[index].number"),
+                ),
+              ),
+            );
+          },
+      ])  ),
+  }
+}*/
