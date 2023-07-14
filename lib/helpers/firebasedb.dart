@@ -16,7 +16,6 @@ class FFHelper {
           numOfEpisodes: docs['numOfEpisodes'],
           notes: docs['notes']);
       seriler.add(seri);
-      print(seriler.length);
     }
 
     return seriler;

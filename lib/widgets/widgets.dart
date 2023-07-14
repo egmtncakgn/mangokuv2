@@ -6,7 +6,6 @@ import 'package:mangokuv2/helpers/firebasedb.dart';
 import 'package:mangokuv2/models/seri.dart';
 import 'package:mangokuv2/screens/detailpage.dart';
 import 'package:mangokuv2/styles/mcolors.dart';
-import 'package:mangokuv2/models/manga.dart';
 import 'package:mangokuv2/styles/mstyles.dart';
 import 'package:mangokuv2/helpers/silver_custom_header.dart';
 
@@ -118,34 +117,56 @@ class ListRecents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: LayoutBuilder(
-        builder: (_, constraints) {
-          return ListView.builder(
-            itemCount: recentData.length,
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.only(left: 20, top: 10),
-            itemBuilder: (_, index) {
-              return RecentsItems(
-                index: index,
-                constraints: constraints,
-              );
-            },
-          );
-        },
-      ),
-    );
+    List<Seri> seriler = List.empty();
+    final db = FirebaseFirestore.instance;
+    return StreamBuilder<QuerySnapshot>(
+        stream: db.collection("seriler").snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const CircularProgressIndicator();
+            default:
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text("Bi Sorun Var ${snapshot.hasError}"),
+                );
+              } else {
+                seriler = FFHelper().serileriListele(snapshot.data);
+                return Expanded(
+                  child: LayoutBuilder(
+                    builder: (_, constraints) {
+                      return ListView.builder(
+                        itemCount: seriler.length,
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.only(left: 20, top: 10),
+                        itemBuilder: (_, index) {
+                          return RecentsItems(
+                            seriler: seriler,
+                            index: index,
+                            constraints: constraints,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              }
+          }
+        });
   }
 }
 
 // Yakın Zamanda Eklenenler Sekmesi Liste Elemanları
-// Eleman resim oranlarında bir hata var düzelt onepuncman daha ince uzun görünüyor
 class RecentsItems extends StatelessWidget {
   final int index;
   final BoxConstraints constraints;
+  final List<Seri> seriler;
 
   const RecentsItems(
-      {super.key, required this.index, required this.constraints});
+      {super.key,
+      required this.index,
+      required this.constraints,
+      required this.seriler});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -160,12 +181,12 @@ class RecentsItems extends StatelessWidget {
             width: constraints.maxWidth * .29,
             child: OutlinedButton(
               onPressed: () {
-                //goToDetail(context, );
+                goToDetail(context, seriler[index]);
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(7),
                 child: Image.network(
-                  recentData[index].poster,
+                  seriler[index].posterAddress,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -173,7 +194,7 @@ class RecentsItems extends StatelessWidget {
           ),
         ),
         Text(
-          recentData[index].name,
+          seriler[index].name,
           style: Mstyles().rcTxStyle,
         )
       ],
